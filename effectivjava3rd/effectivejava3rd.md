@@ -1,3 +1,4 @@
+
 本书主旨就是帮助你更有效的使用java语言和他自己的基础库，这些基础库包括java.lang, java.util,和java.io,以及这些库的字库比如  java.util.concurrent and java.util.function。其他的一些库我们也会有所提及。
 本书由90个条款组成，每个条款都阐述了一种规则。这些规则都应该在实践中得到，最优秀最有经验的程序员都认为这些规则是非常有用的。这些规则松散的被分成了11章，每章都涵盖软件设计的一个宽的范围。本书不推荐从头按顺阅读，因为每项或多或少都可以独立存在的。这些规则被高度穿插引用因此你可以很方便来规划自己正本书的阅读的进程。
 自从本书发行的上一个版本之后，java平台增加了许多新的特性。本书的大部分规则将一些方式去运用这些特性。下面的表展示了这些关键特性的主要内容都分布在哪些规则中，以及支持这些特性的java平台。
@@ -84,4 +85,6 @@ named BigInteger.probablePrime. (This method was added in Java 4.)
 第一个优点，与构造方法不同，静态工厂方法有自己名字。如果通过构造函数的参数本身不能够描述该构造方法将要返回的对象，此时，静态工厂方法可使用一个描述准确的名字的是非常容易，并且客户端代码易读性也强。例如，构造函数BigInteger(int, int, Random)可能返回BigInteger对象是一个素数，但如果使用静态工厂方法BigInteger.probablePrime，那么描述的就更清晰。
 A class can have only a single constructor with a given signature. Programmers have been known to get around this restriction by providing two constructors whose parameter lists differ only in the order of their parameter types. This is a really bad idea. The user of such an API will never be able to remember which constructor is which and will end up calling the wrong one by mistake. People reading code that uses these constructors will not know what the code does without referring to the class documentation.
 一个类的一个函数签名只能定义一个构造函数。大家都知道程序员
+
+
 
