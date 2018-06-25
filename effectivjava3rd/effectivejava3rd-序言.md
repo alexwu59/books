@@ -1,4 +1,4 @@
-
+##序言
 本书主旨就是帮助你更有效的使用java语言和他自己的基础库，这些基础库包括java.lang, java.util,和java.io,以及这些库的字库比如  java.util.concurrent and java.util.function。其他的一些库我们也会有所提及。
 本书由90个条款组成，每个条款都阐述了一种规则。这些规则都应该在实践中得到，最优秀最有经验的程序员都认为这些规则是非常有用的。这些规则松散的被分成了11章，每章都涵盖软件设计的一个宽的范围。本书不推荐从头按顺阅读，因为每项或多或少都可以独立存在的。这些规则被高度穿插引用因此你可以很方便来规划自己正本书的阅读的进程。
 自从本书发行的上一个版本之后，java平台增加了许多新的特性。本书的大部分规则将一些方式去运用这些特性。下面的表展示了这些关键特性的主要内容都分布在哪些规则中，以及支持这些特性的java平台。
@@ -66,25 +66,3 @@ them, when and how to avoid creating them, how to ensure they are destroyed in a
 timely manner, and how to manage any cleanup actions that must precede their
 destruction.
 本章关注的是对象的创建和销毁:何时怎样创建对象，什么时间以及怎样避免创建对象，如何确保他们及时进行销毁，最后怎样管理对象的清理工作，这些清理工作必须在他们销毁执行进行。
-Item 1: Consider static factory methods instead of constructors
-第1款:考虑用静态工厂方法替代构造函数
-The traditional way for a class to allow a client to obtain an instance is to provide a public constructor. There is another technique that should be a part of every programmer’s toolkit. A class can provide a public static factory method, which is simply a static method that returns an instance of the class. Here’s a simple example from Boolean (the boxed primitive class for boolean). This method translates a boolean primitive value into a Boolean object reference:
-public static Boolean valueOf(boolean b) {
-return b ? Boolean.TRUE : Boolean.FALSE;
-}
-Note that a static factory method is not the same as the Factory Method pattern from Design Patterns [Gamma95]. The static factory method described in this item has no direct equivalent in Design Patterns.
-传统的获取类实例的方法是运行客户端访问类提供的公共构造函数。还有另外一种技术，应该作为每个程序员的工具包里的一部分：一个类应该提供一个静态工厂方法，这个方法是普通的静态方法，它返回一个类的实例对象。这里有一个来自Boolean（原始数据类型boolean的包装类）的简单示例。该方法把boolean的原始值转变为Boolean类的引用类型：
-   public static Boolean valueOf(boolean b) {
-return b ? Boolean.TRUE : Boolean.FALSE;
-}
-注意，这静态工厂方法与设计模式中的静态工厂方法不一样。这本条款中的静态工厂方法与设计模式不是直接等效。
-A class can provide its clients with static factory methods instead of, or in addition to, public constructors. Providing a static factory method instead of a public constructor has both advantages and disadvantages.
-一个类为客户端除了公共构造方法之前，还应该提供静态工厂方法。利用静态构造方法来代替公共构造函数优缺点并存。
-One advantage of static factory methods is that, unlike constructors, they have names. If the parameters to a constructor do not, in and of themselves, describe the object being returned, a static factory with a well-chosen name is easier to use and the resulting client code easier to read. For example, the constructor BigInteger(int, int, Random), which returns a BigInteger that is probably prime, would have been better expressed as a static factory method
-named BigInteger.probablePrime. (This method was added in Java 4.)
-第一个优点，与构造方法不同，静态工厂方法有自己名字。如果通过构造函数的参数本身不能够描述该构造方法将要返回的对象，此时，静态工厂方法可使用一个描述准确的名字的是非常容易，并且客户端代码易读性也强。例如，构造函数BigInteger(int, int, Random)可能返回BigInteger对象是一个素数，但如果使用静态工厂方法BigInteger.probablePrime，那么描述的就更清晰。
-A class can have only a single constructor with a given signature. Programmers have been known to get around this restriction by providing two constructors whose parameter lists differ only in the order of their parameter types. This is a really bad idea. The user of such an API will never be able to remember which constructor is which and will end up calling the wrong one by mistake. People reading code that uses these constructors will not know what the code does without referring to the class documentation.
-一个类的一个函数签名只能定义一个构造函数。大家都知道程序员
-
-
-
