@@ -1,6 +1,6 @@
-##第一章
-###Item 1: Consider static factory methods instead of constructors
-###第1款:考虑用静态工厂方法替代构造函数
+## 第一章
+### Item 1: Consider static factory methods instead of constructors
+### 第1款:考虑用静态工厂方法替代构造函数
 The traditional way for a class to allow a client to obtain an instance is to provide a public constructor. There is another technique that should be a part of every programmer’s toolkit. A class can provide a public static factory method, which is simply a static method that returns an instance of the class. Here’s a simple example from Boolean (the boxed primitive class for boolean). This method translates a boolean primitive value into a Boolean object reference:
 public static Boolean valueOf(boolean b) {
 return b ? Boolean.TRUE : Boolean.FALSE;
