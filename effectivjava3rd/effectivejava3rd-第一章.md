@@ -83,8 +83,8 @@ List<Complaint> litany = Collections.list(legacyLitany);
 In summary, static factory methods and public constructors both have their uses, and it pays to understand their relative merits. Often static factories are preferable, so avoid the reflex to provide public constructors without first considering static factories.
 总的来说，静态工厂方法和公共构造函数二者都有他们的自己的用途，理解他们优缺点是有好处的。通常静态工厂方法会更胜一筹,因此避免第一反应就采用公共构造函数，而没有考虑静态工厂方法。
  
-###Item 2: Consider a builder when faced with many constructor parameters
-###条款2：当构造函数需要很多参数时，考虑创建一个builder方法
+### Item 2: Consider a builder when faced with many constructor parameters
+### 条款2：当构造函数需要很多参数时，考虑创建一个builder方法
 Static factories and constructors share a limitation: they do not scale well to large numbers of optional parameters. Consider the case of a class representing the Nutrition Facts label that appears on packaged foods. These labels have a few required fields—serving size, servings per container, and calories per serving—and more than twenty optional fields—total fat, saturated fat, trans fat, cholesterol, sodium, and so on. Most products have nonzero values for only a few of these optional fields.
 静态工厂方法和构造函数有一个共同的局限性：他们不能很好平衡数量比较多的可选参数。考虑一种情况，用一个类表示实物包装上的营养成分表。这些标签有一些必须的属性——分量数量，每个包有多少分量，每个分量包括多少卡洛里，还有超过20中可选的属性——总脂肪，饱和脂肪，反式脂肪，胆固醇，钠等等。这些可选字段中，对于大部分产品，只有期中一小部分是有非0值。
 What sort of constructors or static factories should you write for such a class? Traditionally, programmers have used the telescoping constructor pattern, in which you provide a constructor with only the required parameters, another with a single optional parameter, a third with two optional parameters, and so on, culminating in a constructor with all the optional parameters. Here’s how it looks in practice. For brevity’s sake, only four optional fields are shown:
@@ -252,8 +252,8 @@ The Builder pattern has disadvantages as well. In order to create an object, you
 builder模式同样也存在缺点。为了创建一个对象，你必须首先创建他的builder。实践中，创建builder的性能代价通常没有被考虑到，在对性能很敏感的系统中的这确实是一个问题。第二，builder模式相比层次构造函数更冗长，因此，他应该仅仅被用在有足够多的参数的时候才能显出他的价值，比如4个或者4个以上参数。但是记住，在未来你可能会增加参数。但是，如果你以构造函数或者静态工厂方法开始，然后向builder转向，当类发展到一个时间点，这个点是参数的个数已经失控，淘汰的构造函数和静态方法将会像一个疼痛的大拇指一样，格外的突出。因此，首要就是使用builder模式。
 In summary, the Builder pattern is a good choice when designing classes whose constructors or static factories would have more than a handful of parameters, especially if many of the parameters are optional or of identical type. Client code is much easier to read and write with builders than with telescoping constructors, and builders are much safer than JavaBeans.
 总的来说，builder模式是一个很好的选择，在所要设计的类的构造函数和静态工厂方法有很多参数的时候，尤其是有很多可选参数或者是同一类型的参数。相比层叠式的构造函数，客户端代码使用builder非常容易理解和编写，而且比javabeans更加安全。
-###Item 3: Enforce the singleton property with a private constructor or an enum type
-###条款3 利用私有构造函数或者枚举实现单例
+### Item 3: Enforce the singleton property with a private constructor or an enum type
+### 条款3 利用私有构造函数或者枚举实现单例
 
 A singleton is simply a class that is instantiated exactly once [Gamma95]. Singletons typically represent either a stateless object such as a function (Item 24) or a system component that is intrinsically unique. Making a class a singleton can make it difficult to test its clients because it’s impossible to substitute a mock implementation for a singleton unless it implements an interface that serves as its type.
 单例是一个只能被实例化一次的类。单例典型代表一个无状态的对象，比如一个函数或者一个系统组件，此组件是独一。创建的单例类使得测试它的客户端变的很困难，因为不能创建一个mock实现去替代单例，除非它实现的是一个接口，该接口作为提供服务的类型。
@@ -299,8 +299,8 @@ public void leaveTheBuilding() { ... }
 }
 This approach is similar to the public field approach, but it is more concise, provides the serialization machinery for free, and provides an ironclad guarantee against multiple instantiation, even in the face of sophisticated serialization or reflection attacks. This approach may feel a bit unnatural, but a single-element enum type is often the best way to implement a singleton. Note that you can’t use this approach if your singleton must extend a superclass other than Enum(though you can declare an enum to implement interfaces).
 这种方法与public域方式类似，但是它提供了更多的选择，提供了一个免费的序列化机制,并且为防止多实例化提供了坚固的保证。即使面对复杂的序列化和反射攻击。虽然这种方法让人感觉有点不自然，但是单例元素的枚举类型是最好的实现单子方式。注意，如果当你的单例类必须继承父类（除枚举以外，但你可以声明一个枚举实现接口）的时候，不能使用这种方式。
-###Item 4: Enforce noninstantiability with a private constructor
-###条款4 使用私有构造函数执行不可实例化
+### Item 4: Enforce noninstantiability with a private constructor
+### 条款4 使用私有构造函数执行不可实例化
 Occasionally you’ll want to write a class that is just a grouping of static methods and static fields. Such classes have acquired a bad reputation because some people abuse them to avoid thinking in terms of objects, but they do have valid uses. They can be used to group related methods on primitive values or arrays, in the manner of java.lang.Math or java.util.Arrays. They can also be used to group static methods, including factories (Item 1), for objects that implement some interface, in the manner of java.util.Collections. (As of Java 8, you can also put such methods in the interface, assuming it’s yours to modify.) Lastly, such classes can be used to group methods on a final class, since you can’t put them in a subclass.
 偶尔，你创建一个类，这个类只包括静态方法和静态域。这些类拥有不好的名声，因为有些人滥用这些类，而没有仔细考虑过这些对象。但是，这些类在用的时候，确实比较有效。这些类被根据有关联的方法进行分类，这些方法用来操作原始值或者数组，例如Math和Arrays。他们可以根据静态方法（包括静态工厂），这些类型通常是实现了某些接口，比如java.util.Collections。(在java8中，你能把这些方法放到接口中，假设这些类是自己定义的)最后，这些类可以把方法聚合在一个final类中，因为你不能把这些放放到子类中。
 Such utility classes were not designed to be instantiated: an instance would be nonsensical. In the absence of explicit constructors, however, the compiler provides a public, parameterless default constructor. To a user, this constructor is indistinguishable from any other. It is not uncommon to see unintentionally instantiable classes in published APIs.
@@ -319,8 +319,8 @@ Because the explicit constructor is private, it is inaccessible outside the clas
 因为明确提供私有的构造函数，它不能在类的外部访问。AssertionError也不是一定要提供，但是AssertionError提供了一种保障，以防私有构造函数由于失误在类的内部被调用。它保证了类在任何情况下永远不能被实例化。使用这种方法，明确的提供一个构造函数目的就是不能被调用，这一点稍微有点违反直觉。明智的做法就是增加注释，例如上文所示。
 As a side effect, this idiom also prevents the class from being subclassed. All constructors must invoke a superclass constructor, explicitly or implicitly, and a subclass would have no accessible superclass constructor to invoke.
 此种方法有一种副作用，它阻止了此类被继承。所有的构造函数必须显式或者隐式的调用父类的构造构造函数，这种方式子类失去了访问父类构造函数的权限。
-###Item 5:  Prefer dependency injection to hardwiring resources
-###优先选择依赖注入而不是硬编码的资源文件
+### Item 5:  Prefer dependency injection to hardwiring resources
+### 条款5：优先选择依赖注入而不是硬编码的资源文件
 Many classes depend on one or more underlying resources. For example, a spell checker depends on a dictionary. It is not uncommon to see such classes implemented as static utility classes (Item 4):
 许多类依赖于一个或者多个基础的资源文件。例如，一个拼写检查器依赖于字典。经常见到这些类作为静态的工具类实现。
 // Inappropriate use of static utility - inflexible & untestable!
@@ -364,8 +364,8 @@ Although dependency injection greatly improves flexibility and testability, it c
 虽然依赖注入极大的改善了灵活性和易测试性，但是他工程变得杂乱，这些工程中包含了数以千计的依赖。这种杂乱可以通过使用注入框架，比如Dagger，Guice，Spring而消除。对于这些框架的使用超过了本书的范围，但是，注意，这些手动注入API的设计完全能够适合这些框架。
 In summary, do not use a singleton or static utility class to implement a class that depends on one or more underlying resources whose behavior affects that of the class, and do not have the class create these resources directly. Instead, pass the resources, or factories to create them, into the constructor (or static factory or builder). This practice, known as dependency injection, will greatly enhance the flexibility, reusability, and testability of a class.
 总的来说，当一个类依赖一个或多个基础资源时候，这些资源的行为会影响整个类。不要使用单例或者静态工厂去实现该类，也不要让这类直接去创建这些资源。而是把资源，或者通过工厂创建资源直接传入构造器（或者静态工厂方法或者builder）。这种实践方式，众所周知的依赖注入形式，将很好的增加类的扩展性，可重用性和易测试性。
-###Item 6: Avoid creating unnecessary objects
-###条款6 避免创建不必要的对象
+### Item 6: Avoid creating unnecessary objects
+### 条款6 避免创建不必要的对象
 It is often appropriate to reuse a single object instead of creating a new functionally equivalent object each time it is needed. Reuse can be both faster and more stylish. An object can always be reused if it is immutable (Item 17).
 通常复用单例来代替创建一个新的具有相同功能性的对象是很合理的。复用即使快速又流行。如果一个类不可变，那么他总能被复用。
 As an extreme example of what not to do, consider this statement:
@@ -424,8 +424,8 @@ Conversely, avoiding object creation by maintaining your own object pool is a ba
 相反，通过创建自己的对象池来避免对象的创建是一个糟糕的注意，除非这些池中的对象都是重量级的对象。满足对象池的合适的对象例子就是数据库连接对象。建立数据库的连接的消耗是非常巨大，因此减少这些对象的创建才变的有意义。通常来说，维持自己定义的连接池会使得自己的代码变得混乱,增加了内存的占用，并且对性能有害。现在JVM虚拟机的实现有很好的对垃圾回收器，这些垃圾回收器性能早就已经超过了这些轻量级对象的对象池
 The counterpoint to this item is Item 50 on defensive copying. The present item says, “Don’t create a new object when you should reuse an existing one,” while Item 50 says, “Don’t reuse an existing object when you should create a new one.” Note that the penalty for reusing an object when defensive copying is called for is far greater than the penalty for needlessly creating a duplicate object. Failing to make defensive copies where required can lead to insidious bugs and security holes; creating objects unnecessarily merely affects style and performance.
 与此条款相对的是条款50“保卫性复制”。当前的条款说的是不要创建新对象当你应该重复使用一个存在的对象。而条款50描述得是：“不要重用一个已经存在的对象，当你应该创建新一个新对象”。注意,当保卫行复制被调用的时候，重用对象的坏处远远大于创建不必要的重复对象的坏处。当在需要进行保护性复制的地方，创建保护性复制失败会导致隐藏的bug和安全漏洞；而新建不必要的对象仅仅只是影响了风格和性能。
-###Item 7: Eliminate obsolete object references
-###条款7 消除无用的对象引用
+### Item 7: Eliminate obsolete object references
+### 条款7 消除无用的对象引用
 If you switched from a language with manual memory management, such as C or C++, to a garbage-collected language such as Java, your job as a programmer was made much easier by the fact that your objects are automatically reclaimed when you’re through with them. It seems almost like magic when you first experience it. It can easily lead to the impression that you don’t have to think about memory management, but this isn’t quite true.
 如果你从手动内存管理的语言（比如C++）转到垃圾自动回收的语言中（比如java）你作为程序员的工作变得非常简单，这是因为一个事实：你自己定义的对象可以自动的被清理当你使用完成这些对象之后。当你第一次使用的时候，会感觉非常神奇。它会给人一种感觉，就是你不需要考虑内存管理，然后这并不是真的。
 Consider the following simple stack implementation:
@@ -490,4 +490,4 @@ Another common source of memory leaks is caches. Once you put an object referenc
 
 A third common source of memory leaks is listeners and other callbacks. If you implement an API where clients register callbacks but don’t deregister them explicitly, they will accumulate unless you take some action. One way to ensure that callbacks are garbage collected promptly is to store only weak references to them, for instance, by storing them only as keys in a WeakHashMap. 
 Because memory leaks typically do not manifest themselves as obvious failures, they may remain present in a system for years. They are typically discovered only as a result of careful code inspection or with the aid of a debugging tool known as a heap profiler. Therefore, it is very desirable to learn to anticipate problems like this before they occur and prevent them from happening.
-Item 8:
+### Item 8:
